@@ -1,0 +1,60 @@
+﻿@{
+  ViewBag.Title = "Statistiken";
+}
+
+@Html.Hidden("getBills", @Url.Action("GetCurrentBills", "Ajax"))
+@Html.Hidden("getSettlements", @Url.Action("GetAllSettlements", "Ajax"))
+@Html.Hidden("getConsumption", @Url.Action("GetConsumption", "Ajax"))
+
+@section scripts {
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  @Scripts.Render("~/Content/js/bootstrap-datepicker.js")
+  @Scripts.Render("~/Content/js/common.js")
+  @Scripts.Render("~/Content/js/statistics.js")
+
+  <script type="text/javascript">
+  	$('#consumptionFrom').datepicker({
+  		format: 'dd.mm.yyyy',
+  	});
+  	$('#consumptionTo').datepicker({
+  		format: 'dd.mm.yyyy',
+  	});
+  </script>
+}
+
+@section leftNavigation {
+  <ul class="nav nav-list affix">
+    <li><a href="#highscoreTitle">Bestenlisten</a></li>
+    <li><a href="#consumptionTitle">Konsum</a></li>
+    <li><a href="#peopleConsumptionTitle">Konsum Person pro Tag</a></li>
+  </ul>
+}
+
+<h2 id="highscoreTitle">Bestenliste in Abrechnungszeitr&auml;umen</h2>
+
+<div class="form-inline">
+  Abrechnung:
+  <select id="highscoreSettlements" onchange="initHighscoreProducts()">
+  </select>
+
+  Getr&auml;nk: 
+    <select id="highscoreProducts" onchange="drawHighscoreChart()">
+    </select>
+</div>
+
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+<div id="treemap_chart" style="width: 900px; height: 500px;"></div>
+
+<h2 id="consumptionTitle">Konsum nach Datum</h2>
+
+<div class="form-inline">
+  Von
+  <input type="text" value="" id="consumptionFrom" />
+  bis
+  <input type="text" value="" id="consumptionTo" />
+  <button class="btn btn-primary" onclick="updateConsumptionChart()">Aktualisieren</button>
+</div>
+
+<div id="consumptionChart" style="width: 900px; height: 500px;"></div>
+

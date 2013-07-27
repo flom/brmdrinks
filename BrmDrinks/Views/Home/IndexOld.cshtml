@@ -1,0 +1,143 @@
+﻿@{
+  ViewBag.Title = "Home Page";
+}
+
+@Html.Hidden("getCustomers", @Url.Action("GetAllCustomers", "Ajax"))
+@Html.Hidden("getProducts", @Url.Action("GetAllProducts", "Ajax"))
+@Html.Hidden("getAccounts", @Url.Action("GetAllAccounts", "Ajax"))
+@Html.Hidden("getArchivedCustomers", @Url.Action("GetArchivedCustomers", "Ajax"))
+@Html.Hidden("getProductCount", @Url.Action("GetProductCount", "Ajax"))
+@Html.Hidden("orderProduct", @Url.Action("OrderProduct", "Ajax"))
+@Html.Hidden("orderSpendedProduct", @Url.Action("OrderSpendedProduct", "Ajax"))
+@Html.Hidden("getPastOrdersForProduct", @Url.Action("GetPastOrdersForProduct", "Ajax"))
+@Html.Hidden("undoOrderProduct", @Url.Action("UndoOrderProduct", "Ajax"))
+@Html.Hidden("undoSpecificOrder", @Url.Action("UndoSpecificOrder", "Ajax"))
+@Html.Hidden("addAccount", @Url.Action("AddAccount", "Ajax"))
+@Html.Hidden("addCustomer", @Url.Action("AddCustomer", "Ajax"))
+@Html.Hidden("addProduct", @Url.Action("AddProduct", "Ajax"))
+@Html.Hidden("spendProduct", @Url.Action("SpendProduct", "Ajax"))
+@Html.Hidden("getProductSpendings", @Url.Action("GetProductSpendings", "Ajax"))
+@Html.Hidden("getSpendingCount", @Url.Action("GetSpendingCount", "Ajax"))
+@Html.Hidden("getOrdersForSpending", @Url.Action("GetOrdersForSpending", "Ajax"))
+@Html.Hidden("getOrdersForCustomer", @Url.Action("GetOrdersForCustomer", "Ajax"))
+@Html.Hidden("closeProductSpending", @Url.Action("RemoveProductSpending", "Ajax"))
+
+@section scripts {
+  @Scripts.Render("~/Content/js/drinks.js")
+}
+
+<div class="alert alert-error" style="display: none;" onclick="$(this).css('display', 'none')" id="errorLabel"></div>
+<div class="alert alert-success" style="display: none;" onclick="$(this).css('display', 'none')" id="successLabel"></div>
+
+<div class="row">
+  <div class="span4">
+    <div class="pull-right">
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button type="button" class="btn btn-primary active" onclick="setCustomerSort(0)">A..Z</button>
+        <button type="button" class="btn btn-primary" onclick="setCustomerSort(1)">Menge</button>
+      </div>
+    </div>
+    <h2>Personen</h2>
+    <div class="element-list" id="personList">
+    </div>
+    <a href="#addCustomerModal" class="btn btn-large btn-success" role="button" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>&nbsp;Person anlegen</a>
+    <a href="#customerInfoModal" id="btnCustomerInfo" class="btn btn-large btn-info" role="button" data-toggle="modal"><i class="icon-info-sign icon-white"></i>&nbsp;Person Info</a>
+  </div>
+  <div class="span4">
+    <h2>Getr&auml;nke</h2>
+    <div class="element-list" id="productList">
+    </div>
+    <a href="#addProductModal" class="btn btn-large btn-success" role="button" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>&nbsp;Produkt hinzuf&uuml;gen</a>
+  </div>
+  <div id="infoPanel" class="span4">
+    <h2 id="selectedCustomer"></h2>
+    <h3>Anzahl: <span id="currentQuantity">1</span></h3>
+    <button class="btn btn-large" onclick="addQuantity(1)">+ 1</button>
+    <button class="btn btn-large" onclick="addQuantity(2)">+ 2</button>
+    <button class="btn btn-large" onclick="addQuantity(5)">+ 5</button>
+
+    <button class="btn btn-large" onclick="addQuantity(-1)">- 1</button>
+    <button class="btn btn-large" onclick="addQuantity(-2)">- 2</button>
+
+    <h3>Stand: <span id="productCount"></span><span style="color: green" id="addedQuantity"></span></h3>
+
+    <button class="btn btn-very-large btn-success" style="width: 100%" onclick="confirmOrder()">Best&auml;tigen</button>
+    <br />
+    <br />
+    <br />
+    <button id="btnNewSpending" class="btn btn-large btn-info" style="width: 100%" onclick="spendChosenProduct()">Als Klammer &ouml;ffnen</button>
+    <button id="btnCloseSpending" class="btn btn-large btn-danger" style="width: 100%" onclick="closeSpending()">Klammer schlie&szlig;en</button>
+    <br />
+    <br />
+    <br />
+    <h3>Letzten Bestellungen:</h3>
+    <button class="btn btn-large btn-danger" style="width: 100%" onclick="undoOrder()">R&uuml;ckg&auml;ngig</button>
+    <ul id="pastOrders">
+    </ul>
+  </div>
+</div>
+
+<div id="addCustomerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Person/Konto anlegen</h3>
+  </div>
+  <div class="modal-body">
+    <p>Zu bestehenden Konto zuweisen:</p>
+    <select id="availableAccounts">
+    </select>
+    <p>oder neues Konto anlegen</p>
+    <input type="text" placeholder="Kontoname" id="newAccountName" oninput="newAccountName(this.value)" />
+    <hr />
+    <p>Personen Name:</p>
+    <input type="text" placeholder="Vorname" id="newCustomerFirstName" />
+    <input type="text" placeholder="Nachname" id="newCustomerLastName" />
+
+    <hr />
+    <p>Archivierte Personen:</p>
+    <select id="archivedCustomers" onchange="archivedCustomerSelection($(this).val())">
+        <option value="-1"></option>
+    </select>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-large" data-dismiss="modal" aria-hidden="true">Schlie&szlig;en</button>
+    <button class="btn btn-primary btn-large" onclick="addNewCustomer()" data-dismiss="modal" aria-hidden="true">Person anlegen</button>
+    <a href="#" id="btnReactivate" style="display:none" class="btn btn-primary btn-large" onclick="reactivateCustomer()">Person reaktivieren</a>
+  </div>
+</div>
+
+<div id="addProductModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="productModalLabel">Neues Produkt anlegen</h3>
+  </div>
+  <div class="modal-body">
+    <p>Produkt Name:</p>
+    <input type="text" placeholder="Produktbezeichnung" id="newProductName" />
+    <p>Preis:</p>
+    <div class="input-prepend input-append">
+      <input id="newProductPrice" type="text">
+      <span class="add-on">&euro;</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-large" data-dismiss="modal" aria-hidden="true">Schlie&szlig;en</button>
+    <button class="btn btn-primary btn-large" onclick="addNewProduct()" data-dismiss="modal" aria-hidden="true">Produkt anlegen</button>
+  </div>
+</div>
+
+<div id="customerInfoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="customerInfoLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="customerInfoLabel"></h3>
+    <a id="linkEditCustomer" href="#">Person editieren</a> <br />
+    <a id="linkArchiveCustomer" href="#">Person archivieren (entfernen von Liste ohne L&ouml;schung)</a>
+  </div>
+  <div class="modal-body">
+    <p>Klicke auf eine Bestellung um sie R&uuml;ckg&auml;ngig zu machen.</p>
+    <div id="customerInfoBody"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-large" data-dismiss="modal" aria-hidden="true">Schlie&szlig;en</button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrmDrinks", "BrmDrinks\BrmDrinks.csproj", "{D12C30C8-3F87-4AE5-A75B-748CA2054BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrmDrinks.Tests", "BrmDrinks.Tests\BrmDrinks.Tests.csproj", "{C8B7E05A-C77A-4197-83D6-DA25A4BBB8B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D12C30C8-3F87-4AE5-A75B-748CA2054BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12C30C8-3F87-4AE5-A75B-748CA2054BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12C30C8-3F87-4AE5-A75B-748CA2054BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12C30C8-3F87-4AE5-A75B-748CA2054BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B7E05A-C77A-4197-83D6-DA25A4BBB8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B7E05A-C77A-4197-83D6-DA25A4BBB8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B7E05A-C77A-4197-83D6-DA25A4BBB8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B7E05A-C77A-4197-83D6-DA25A4BBB8B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

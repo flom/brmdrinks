@@ -1,0 +1,23 @@
+﻿@model BrmDrinks.Models.Customer
+
+@{
+  ViewBag.Title = "Delete";
+}
+
+@if (BrmDrinks.Misc.ModelMethods.ComputeBillSummary(Model.GetCurrentBill()).Count > 0)
+{
+  <h3>Person enth&auml;lt Bestellungen und kann daher nicht gel&ouml;scht werden</h3>
+}
+else
+{
+  <h3>Bist du sicher dass du diese Person l&ouml;schen willst?</h3>
+  <fieldset>
+    <legend>@Model.GetFullName()</legend>
+  </fieldset>
+  using (Html.BeginForm())
+  {
+    <p>
+      <input type="submit" value="Löschen" class="btn btn-danger btn-large" />
+    </p>
+  }
+}

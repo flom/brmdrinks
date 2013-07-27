@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Alte Abrechnungen";
+}
+
+@Html.Hidden("getAllSettlements", @Url.Action("GetAllSettlements", "Ajax"))
+@Html.Hidden("getBills", @Url.Action("GetCurrentBills", "Ajax"))
+
+@section scripts {
+    @Scripts.Render("~/Content/js/common.js")
+    @Scripts.Render("~/Content/js/settlements.js")
+
+    <script type="text/javascript">
+        loadAllSettlements();
+    </script>
+}
+
+@section leftNavigation {
+    <ul class="nav nav-list">
+        <li><a href="@Url.Action("DrinkAdmin", "Home")">Momentane Abrechnung</a></li>
+        <li class="active"><a href="@Url.Action("OldSettlements", "Home")">Alte Abrechnungen</a></li>
+    </ul>
+}
+
+<ul id="settlements">
+</ul>

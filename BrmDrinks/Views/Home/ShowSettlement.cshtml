@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Abrechnung Details";
+}
+
+@Html.Hidden("getAllSettlements", @Url.Action("GetAllSettlements", "Ajax"))
+@Html.Hidden("getBills", @Url.Action("GetCurrentBills", "Ajax"))
+
+@section scripts {
+    @Scripts.Render("~/Content/js/common.js")
+    @Scripts.Render("~/Content/js/settlements.js")
+
+    <script type="text/javascript">
+        getSpecificBills(getParameterByName('id'), 'accountOverview');
+    </script>
+}
+
+<a href="/Ajax/DownloadSettlement?settlementId=@ViewBag.SettlementId" class="btn btn-large btn-primary">Abrechnung herunterladen</a>
+
+<hr />
+
+<table id="accountOverview" class="table table-condensed table-hover">
+
+</table>

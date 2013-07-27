@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>@ViewBag.Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Le styles -->
+  @Styles.Render("~/Content/css/bootstrap.min.css")
+  @Styles.Render("~/Content/css/brm.css")
+  @Styles.Render("~/Content/css/datepicker.css")
+  @Styles.Render("~/Content/css/flat-ui.css")
+  <style>
+    body
+    {
+      padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
+  </style>
+  @Styles.Render("~/Content/css/bootstrap-responsive.min.css")
+</head>
+
+<body @(ViewBag.NgApp != null && ViewBag.NgApp ? "ng-app" : "")>
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="brand" href="@Url.Action("Index", "Home")">B!RM</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            @{
+              string controller = ViewContext.RouteData.Values["Controller"].ToString();
+              string action = ViewContext.RouteData.Values["Action"].ToString();
+            }
+            <li class="@((controller == "Home" && action == "Index") ? "active" : "")"><a href="@Url.Action("Index", "Home")">Anstreichliste</a></li>
+            <li class="@((controller == "Home" && action == "Statistics") ? "active" : "")"><a href="@Url.Action("Statistics", "Home")">Statistik</a></li>
+            <li class="@((controller == "Home" && action == "DrinkAdmin") ? "active" : "")"><a href="@Url.Action("DrinkAdmin", "Home")">Getr&auml;nkewart</a></li>
+            <li class="@((controller == "Customer" && action == "Index") ? "active" : "")"><a href="@Url.Action("Index", "Customer")">Personen</a></li>
+            <li class="@((controller == "Product" && action == "Index") ? "active" : "")"><a href="@Url.Action("Index", "Product")">Produkte</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+
+  <div style="float: left">
+    @RenderSection("floatLeft", false)
+  </div>
+
+  <div class="container">
+    @if (IsSectionDefined("leftNavigation"))
+    {
+      <div class="row">
+        <div class="span3">
+          @RenderSection("leftNavigation")
+        </div>
+        <div class="span9">
+          @RenderBody()
+        </div>
+      </div>
+    }
+    else
+    {
+      @RenderBody()
+    }
+  </div>
+
+  @Scripts.Render("~/Content/js/jquery.js")
+  @Scripts.Render("~/Content/js/bootstrap.min.js")
+  @Scripts.Render("~/Content/js/common.js")
+  @RenderSection("scripts", false)
+
+</body>
+</html>

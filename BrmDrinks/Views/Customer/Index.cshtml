@@ -1,0 +1,29 @@
+﻿@model IEnumerable<BrmDrinks.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<a href="@Url.Action("Create", "Customer")" class="btn btn-primary btn-large">Neue Person anlegen</a>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @string.Format("{0} {1}", item.FirstName, item.LastName)
+        </td>
+        <td>
+            @Html.ActionLink("Bearbeiten", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Löschen", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,30 @@
+﻿@model BrmDrinks.Models.Product
+
+@{
+    ViewBag.Title = "Produkt entfernen";
+}
+
+<h3>Bist du sicher?</h3>
+<fieldset>
+    <legend>Produkt</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Price)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Entfernen" class="btn btn-danger btn-large" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

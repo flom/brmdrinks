@@ -1,0 +1,49 @@
+﻿@{
+  ViewBag.Title = "Getränkewarts Optionen";
+}
+
+@Html.Hidden("getAllSettlements", @Url.Action("GetAllSettlements", "Ajax"))
+@Html.Hidden("getBills", @Url.Action("GetCurrentBills", "Ajax"))
+
+@section scripts {
+  @Scripts.Render("~/Content/js/common.js")
+  @Scripts.Render("~/Content/js/settlements.js")
+  <script type="text/javascript">
+      getCurrentBills('accountOverview');
+  </script>
+}
+
+@section leftNavigation {
+  <ul class="nav nav-list">
+    <li class="active"><a href="@Url.Action("DrinkAdmin", "Home")">Momentane Abrechnung</a></li>
+    <li><a href="@Url.Action("OldSettlements", "Home")">Alte Abrechnungen</a></li>
+  </ul>
+}
+
+<div class="pull-right">
+  <a href="#billAccountsModal" role="button" class="btn btn-primary btn-large" data-toggle="modal">Abrechnung durchf&uuml;hren</a>
+</div>
+
+<h2>Momentane Abrechnung (<span id="totalAllAccounts">0</span> &euro;)</h2>
+
+<hr />
+
+<table class="table table-condensed table-hover" id="accountOverview">
+</table>
+
+<div id="billAccountsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Gesamtabrechnung</h3>
+  </div>
+  <div class="modal-body">
+    <p>Nach Durchf&uuml;hrung der Abrechnung werden die Getr&auml;nkest&auml;nde der Personen wieder zur&uuml;ckgesetzt.</p>
+    <p>Alle Abrechnungen k&ouml;nnen hier gefunden werden: <a href="@Url.Action("OldSettlements", "Home")">Abrechnungen</a></p>
+  </div>
+  <div class="modal-footer">
+    <form action="/Ajax/BillAllAccounts" method="post">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Schlie&szlig;en</button>
+      <input type="submit" class="btn btn-primary" value="Abrechnung durchführen und herunterladen" />
+    </form>
+  </div>
+</div>

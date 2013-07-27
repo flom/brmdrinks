@@ -1,0 +1,84 @@
+﻿@model BrmDrinks.ViewModels.Customer.EditViewModel
+
+@{
+  ViewBag.Title = "Edit";
+}
+
+@section scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+  <script type="text/javascript">
+  	$('#newNameBox').focus();
+
+  	function toggleDropDown(inputElement) {
+  		var val = $(inputElement).val();
+  		if (val) {
+  			$('#accountDropDown').attr('disabled', 'disabled');
+  			var split = val.split(" ");
+  			$('#firstNameBox').val(split[0]);
+  			if (split.length > 1) {
+  				$('#lastNameBox').val(split[1]);
+  			}
+  		} else {
+  			$('#accountDropDown').removeAttr('disabled');
+  		}
+  	}
+  </script>
+}
+
+@using (Html.BeginForm())
+{
+  @Html.ValidationSummary(true)
+
+  <fieldset>
+    <legend>@Model.FirstName @Model.LastName</legend>
+
+    <div class="editor-label">
+      Zugeh&ouml;riges Konto oder neues Konto anlegen
+    </div>
+    <div class="editor-field">
+      @{
+  var selectItems = new List<SelectListItem>();
+  foreach (var account in Model.AvailableAccounts)
+  {
+    selectItems.Add(new SelectListItem() { Text = account.Name, Value = account.ID.ToString(), Selected = account.ID == Model.AccountId });
+  }
+      }
+      @Html.DropDownListFor(model => model.AccountId, selectItems, new { id = "accountDropDown" })
+
+      @Html.TextBoxFor(model => model.NewAccountName, new { placeholder = "Neuer Kontoname", onkeyup = "toggleDropDown(this)", id = "newNameBox" })
+    </div>
+
+    <div class="editor-label">
+      @Html.LabelFor(model => model.FirstName)
+    </div>
+    <div class="editor-field">
+      @Html.TextBoxFor(model => model.FirstName, new { id = "firstNameBox" })
+      @Html.ValidationMessageFor(model => model.FirstName)
+    </div>
+
+    <div class="editor-label">
+      @Html.LabelFor(model => model.LastName)
+    </div>
+    <div class="editor-field">
+      @Html.TextBoxFor(model => model.LastName, new { id = "lastNameBox" })
+      @Html.ValidationMessageFor(model => model.LastName)
+    </div>
+
+    <p>
+      <div class="form-inline">
+        @Html.CheckBoxFor(model => model.Archived) @Html.LabelFor(model => model.Archived)
+      </div>
+    </p>
+
+    @Html.HiddenFor(model => model.CustomerId)
+
+    <p>
+      <input type="submit" value="Änderung speichern" class="btn btn-primary btn-large" />
+    </p>
+  </fieldset>
+}
+
+<div>
+  @Html.ActionLink("Zurück", "Index", "Home")
+</div>
+
