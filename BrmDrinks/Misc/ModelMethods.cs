@@ -34,6 +34,31 @@ namespace BrmDrinks.Misc
       return summary;
     }
 
+    public static List<OrderSummary> ComputeBillsSummary(IEnumerable<Bill> bills)
+    {
+      var summary = new List<OrderSummary>();
+
+      foreach (var bill in bills)
+      {
+        List<OrderSummary> singleSummary = ComputeBillSummary(bill);
+        foreach (OrderSummary item in singleSummary)
+        {
+          var entry = summary.FirstOrDefault(s => s.ProductName == item.ProductName);
+          if (entry == null)
+          {
+            summary.Add(item);
+          }
+          else
+          {
+            entry.Quantity += item.Quantity;
+            entry.TotalPrice += item.TotalPrice;
+          }
+        }
+      }
+
+      return summary;
+    }
+
     public static int GetCurrentlyConsumedQuantity(Customer customer)
     {
       return customer.GetCurrentBill().Orders.Aggregate(0, (prod, next) => next.Quantity + prod);

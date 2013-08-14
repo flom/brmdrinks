@@ -16,7 +16,7 @@ var highscore = {};
 
 function initHighscoreChart() {
     callAjax(getSettlements).success(function (result) {
-        $('#highscoreSettlements').html('<option value="-1">Momentane Rechnung</option>');
+        $('#highscoreSettlements').html('<option value="-1">Momentane Rechnung</option><option value="-2">Alle Rechnungen</option>');
         for (var index in result) {
             $('#highscoreSettlements').append('<option value="{0}">{1}</option>'.format(result[index]['id'], result[index]['created']));
         }

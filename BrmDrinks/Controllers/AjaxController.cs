@@ -239,6 +239,19 @@ namespace BrmDrinks.Controllers
           summary.Add(account, customerSummary);
         }
       }
+      else if (settlementId == -2)
+      {
+        foreach (Account account in Accounts.GetAll())
+        {
+          var customerSummary = new Dictionary<Customer, List<OrderSummary>>();
+          foreach (Customer customer in account.Customers)
+          {
+            List<OrderSummary> billSummary = ModelMethods.ComputeBillsSummary(customer.Bills);
+            if (billSummary.Count > 0) customerSummary.Add(customer, billSummary);
+          }
+          summary.Add(account, customerSummary);
+        }
+      }
       else
       {
         Settlement settlement = Settlements.GetById(settlementId);
