@@ -1,0 +1,10 @@
+﻿@{
+  string action = ViewContext.RouteData.Values["action"].ToString();
+}
+<ul class="nav nav-list">
+  <li class="@(action == "DrinkAdmin" ? "active" : "")"><a href="@Url.Action("DrinkAdmin", "Home")">Momentane Abrechnung</a></li>
+  <li class="@(action == "OldSettlements" ? "active" : "")">
+      <a href="@Url.Action("OldSettlements", "Home")">Alte Abrechnungen</a></li>
+  <li class="@(action == "Options" ? "active" : "")">
+      <a href="@Url.Action("Options", "Home")">Sonstige Optionen</a></li>
+</ul>

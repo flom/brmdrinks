@@ -6,6 +6,7 @@
     $scope.selectedSpending = null;
     $scope.selectedProduct = null;
     $scope.mostConsumedProduct = null;
+    $scope.priorityProductId = null;
     $scope.productCount = 0;
     $scope.spendingCount = 0;
     $scope.pastOrders = [];
@@ -53,7 +54,8 @@
             $scope.products = data;
             for (var index in $scope.products) {
                 var product = $scope.products[index];
-                if (!$scope.mostConsumedProduct || $scope.mostConsumedProduct['consumed'] < product['consumed']) {
+
+                if (product.priority) {
                     $scope.mostConsumedProduct = product;
                 }
             }

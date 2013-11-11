@@ -14,10 +14,7 @@
 }
 
 @section leftNavigation {
-  <ul class="nav nav-list">
-    <li class="active"><a href="@Url.Action("DrinkAdmin", "Home")">Momentane Abrechnung</a></li>
-    <li><a href="@Url.Action("OldSettlements", "Home")">Alte Abrechnungen</a></li>
-  </ul>
+  @Html.Partial("_adminNavigation")
 }
 
 <div class="pull-right">

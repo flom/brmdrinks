@@ -21,15 +21,16 @@ namespace BrmDrinks.Controllers
     private IAccountRepository Accounts;
     private ISettlementRepository Settlements;
     private IProductSpendingRepository ProductSpendings;
+    private IOptionsRepository Options;
 
     public AjaxController() : this(new DrinksContext()) { }
 
     public AjaxController(DrinksContext context)
       : this(new CustomerRepository(context), new ProductRepository(context), new OrderRepository(context), new AccountRepository(context),
-        new SettlementRepository(context), new ProductSpendingRepository(context)) { }
+        new SettlementRepository(context), new ProductSpendingRepository(context), new OptionsRepository()) { }
 
     public AjaxController(ICustomerRepository customers, IProductRepository products, IOrderRepository orders, IAccountRepository accounts,
-      ISettlementRepository settlements, IProductSpendingRepository productSpendings)
+      ISettlementRepository settlements, IProductSpendingRepository productSpendings, IOptionsRepository options)
     {
       Customers = customers;
       Products = products;
@@ -37,6 +38,7 @@ namespace BrmDrinks.Controllers
       Accounts = accounts;
       Settlements = settlements;
       ProductSpendings = productSpendings;
+      Options = options;
     }
 
     public JsonResult GetAllProducts()
@@ -53,6 +55,7 @@ namespace BrmDrinks.Controllers
         }
       }
 
+      int priorityId = Options.GetPriorityProduct() ?? 0;
       var products = from element in Products.GetAll().ToList()
                      orderby element.Name
                      select new
@@ -61,6 +64,7 @@ namespace BrmDrinks.Controllers
                        name = element.Name,
                        price = element.Price,
                        consumed = consumption.ContainsKey(element.Name) ? consumption[element.Name] : 0,
+                       priority = element.ID == priorityId,
                      };
 
       return Json(products);

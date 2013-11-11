@@ -4,10 +4,8 @@
   ViewBag.NgApp = true;
 }
 
-@section scripts {
-  @Scripts.Render("~/Content/js/angular.js")
-  @Scripts.Render("~/Content/js/drinksv2.js")
-}
+@Scripts.Render("~/Content/js/angular.js")
+@Scripts.Render("~/Content/js/drinksv2.js")
 
 
 <div ng-controller="drinksController" ng-init="loadData()">
@@ -15,7 +13,7 @@
 
   <div class="bottom-right" ng-show="selectedCustomer">
     <button class="btn btn-large btn-name" ng-click="quickOrder()">
-		{{selectedCustomer.name}}: {{mostConsumedProduct.name}} + 1</button>
+      {{selectedCustomer.name}}: {{mostConsumedProduct.name}} + 1</button>
   </div>
 
   <div class="row">

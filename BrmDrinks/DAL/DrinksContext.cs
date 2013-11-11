@@ -16,6 +16,7 @@ namespace BrmDrinks.DAL
     public DbSet<Bill> Bills { get; set; }
     public DbSet<Settlement> Settlements { get; set; }
     public DbSet<ProductSpending> ProductSpendings { get; set; }
+    public DbSet<Options> Options { get; set; }
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {

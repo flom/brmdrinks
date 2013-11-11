@@ -1,0 +1,29 @@
+﻿@model BrmDrinks.ViewModels.OptionsViewModel
+
+@{
+  ViewBag.Title = "Sonstige Optionen";
+}
+
+@section leftNavigation {
+  @Html.Partial("_adminNavigation")
+}
+
+@using (Html.BeginForm())
+{
+  <table class="table">
+    <tr>
+      <th>Priorisiertes Getr&auml;nk</th>
+      <td>
+        <select name="productId">
+          <option></option>
+          @foreach (var product in Model.Products)
+          {
+            <option value="@product.ID" 
+                @(product.ID == Model.PriorityProductId ? "selected" : "")>@product.Name</option>
+          }
+        </select>
+      </td>
+    </tr>
+  </table>
+  <input type="submit" class="btn btn-primary" value="Speichern" />
+}

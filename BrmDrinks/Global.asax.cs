@@ -20,7 +20,7 @@ namespace BrmDrinks
     {
       AreaRegistration.RegisterAllAreas();
 
-      //Database.SetInitializer<DrinksContext>(new DrinksInitializer());
+      Database.SetInitializer<DrinksContext>(new DrinksInitializer());
       //Database.SetInitializer<DrinksContext>(new DropCreateDatabaseAlways<DrinksContext>());
 
       WebApiConfig.Register(GlobalConfiguration.Configuration);
