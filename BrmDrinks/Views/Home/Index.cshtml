@@ -18,7 +18,10 @@
   </div>
 
   <div class="alphabet">
-    <button ng-repeat="letter in alphabet" class="letter-btn">{{letter}}</button>
+    <button ng-repeat="letter in alphabet" class="letter-btn" ng-click="search(letter)">{{letter}}</button>
+    <button class="clear-btn" ng-click="searchStr = ''">ENTF</button>
+    <br />
+    {{searchStr}}
     <hr />
     <strong>Letzte Personen:</strong>
     <br />

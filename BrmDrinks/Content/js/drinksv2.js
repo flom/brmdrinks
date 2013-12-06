@@ -1,5 +1,18 @@
 ﻿function drinksController($scope, $log, $http) {
   $scope.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+  $scope.searchStr = '';
+  $scope.search = function (letter) {
+    $scope.searchStr += letter;
+
+    for (var i in $scope.customers) {
+      if ($scope.customers[i].name.indexOf($scope.searchStr) == 0) {
+        if ($scope.selectedCustomer != $scope.customers[i]) {
+          $scope.selectCustomer($scope.customers[i], true);
+          break;
+        }
+      }
+    }
+  };
 
   $scope.customers = [];
   $scope.spendings = [];
@@ -66,7 +79,11 @@
     });
   };
 
-  $scope.selectCustomer = function (customer) {
+  $scope.selectCustomer = function (customer, fromSearch) {
+    if (fromSearch === undefined) {
+      fromSearch = false;
+    }
+
     $scope.selectedSpending = null;
     if ($scope.selectedCustomer == customer) {
       $scope.selectedCustomer = null;
@@ -79,6 +96,10 @@
       }
 
       $scope.loadOrdersForCustomer();
+
+      if (!fromSearch) {
+        $scope.searchStr = '';
+      }
     }
   };
 
@@ -184,6 +205,7 @@
   };
 
   $scope.orderProduct = function (quantity) {
+    $scope.searchStr = '';
     if ($scope.selectedCustomer) {
       $http.post('/Ajax/OrderProduct', {
         customerId: $scope.selectedCustomer['id'],
