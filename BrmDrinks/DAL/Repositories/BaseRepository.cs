@@ -38,7 +38,7 @@ namespace BrmDrinks.DAL.Repositories
 
     public void Update(Entity entity)
     {
-      Context.Entry(entity).State = System.Data.EntityState.Modified;
+      Context.Entry(entity).State = EntityState.Modified;
       SaveChanges();
     }
 

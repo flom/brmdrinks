@@ -52,6 +52,7 @@
         <img src="@loading" alt="am laden..." ng-show="loadingCustomers" />
         <button class="btn btn-large btn-name"
                 ng-repeat="customer in customers"
+                ng-show="customer.name.toUpperCase().indexOf(searchStr) == 0"
                 ng-click="selectCustomer(customer)"
                 ng-class="{'btn-name-selected': customer == selectedCustomer}">
           {{customer.name}}

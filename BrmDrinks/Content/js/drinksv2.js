@@ -5,7 +5,7 @@
     $scope.searchStr += letter;
 
     for (var i in $scope.customers) {
-      if ($scope.customers[i].name.indexOf($scope.searchStr) == 0) {
+      if ($scope.customers[i].name.toUpperCase().indexOf($scope.searchStr) == 0) {
         if ($scope.selectedCustomer != $scope.customers[i]) {
           $scope.selectCustomer($scope.customers[i], true);
           break;
