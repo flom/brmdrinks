@@ -142,3 +142,15 @@
     bottom: 0;
     margin: 10px;
 }
+
+.alphabet {
+  position: fixed;
+  left: 0;
+  top: 80px;
+  width: 200px;
+}
+
+.letter-btn {
+  width: 40px;
+  height: 40px;
+}

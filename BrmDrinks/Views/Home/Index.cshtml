@@ -13,7 +13,18 @@
 
   <div class="bottom-right" ng-show="selectedCustomer">
     <button class="btn btn-large btn-name" ng-click="quickOrder()">
-      {{selectedCustomer.name}}: {{mostConsumedProduct.name}} + 1</button>
+      {{selectedCustomer.name}}: {{mostConsumedProduct.name}} + 1
+    </button>
+  </div>
+
+  <div class="alphabet">
+    <button ng-repeat="letter in alphabet" class="letter-btn">{{letter}}</button>
+    <hr />
+    <strong>Letzte Personen:</strong>
+    <br />
+    <div class="element-list">
+      <button class="btn btn-large btn-name" ng-repeat="customer in lastCustomers" ng-click="selectCustomer(customer)">{{customer.name}}</button>
+    </div>
   </div>
 
   <div class="row">
@@ -30,22 +41,23 @@
       <div class="element-list">
         <img src="@loading" alt="am laden..." ng-show="loadingSpendings" />
         <button class="btn btn-large btn-spending"
-          ng-repeat="spending in spendings"
-          ng-click="selectSpending(spending)"
-          ng-class="{'btn-spending-selected': spending == selectedSpending}">
-          Klammer [{{spending.quantity}}] von {{spending.customerName}}</button>
+                ng-repeat="spending in spendings"
+                ng-click="selectSpending(spending)"
+                ng-class="{'btn-spending-selected': spending == selectedSpending}">
+          Klammer [{{spending.quantity}}] von {{spending.customerName}}
+        </button>
         <img src="@loading" alt="am laden..." ng-show="loadingCustomers" />
         <button class="btn btn-large btn-name"
-          ng-repeat="customer in customers"
-          ng-click="selectCustomer(customer)"
-          ng-class="{'btn-name-selected': customer == selectedCustomer}">
-          {{customer.name}}</button>
+                ng-repeat="customer in customers"
+                ng-click="selectCustomer(customer)"
+                ng-class="{'btn-name-selected': customer == selectedCustomer}">
+          {{customer.name}}
+        </button>
       </div>
-      <!--
-      <a href="#addCustomerModal" class="btn btn-large btn-success" role="button" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>&nbsp;Person anlegen</a>-->
       <a href="#customerInfoModal" class="btn btn-large btn-info"
-        role="button" data-toggle="modal" ng-show="selectedCustomer">
-        <i class="icon-info-sign icon-white"></i>&nbsp;Person Info</a>
+         role="button" data-toggle="modal" ng-show="selectedCustomer">
+        <i class="icon-info-sign icon-white"></i>&nbsp;Person Info
+      </a>
     </div>
 
     <div class="span4">
@@ -53,12 +65,13 @@
       <div class="element-list">
         <img src="@loading" alt="am laden..." ng-show="loadingProducts" />
         <button class="btn btn-large btn-name"
-          ng-repeat="product in products"
-          ng-click="selectProduct(product)"
-          ng-show="selectedCustomer || (selectedSpending && (product.id == selectedSpending.productId)) || !selectedSpending"
-          ng-class="{'btn-product-selected': product == selectedProduct, 'btn-product-most-consumed': product == mostConsumedProduct}"
-          ng-disabled="!selectedCustomer && !selectedSpending">
-          {{product.name}} - {{product.price}} &euro;</button>
+                ng-repeat="product in products"
+                ng-click="selectProduct(product)"
+                ng-show="selectedCustomer || (selectedSpending && (product.id == selectedSpending.productId)) || !selectedSpending"
+                ng-class="{'btn-product-selected': product == selectedProduct, 'btn-product-most-consumed': product == mostConsumedProduct}"
+                ng-disabled="!selectedCustomer && !selectedSpending">
+          {{product.name}} - {{product.price}} &euro;
+        </button>
       </div>
     </div>
 
@@ -71,14 +84,15 @@
         <button class="btn btn-large" ng-click="orderProduct(4)">+ 4</button>
         <button class="btn btn-large" ng-click="orderProduct(5)">+ 5</button>
 
-        <h3>Stand: 
-            <img src="@loading" alt="am laden..." ng-show="loadingProductCount" />
+        <h3>
+          Stand:
+          <img src="@loading" alt="am laden..." ng-show="loadingProductCount" />
           <span ng-hide="loadingProductCount">{{productCount}}</span>
         </h3>
 
         <a href="#spendingModal" data-toggle="modal"
-          class="btn btn-large btn-info" role="button"
-          style="width: 100%">{{selectedProduct.name}} Klammer &ouml;ffnen</a>
+           class="btn btn-large btn-info" role="button"
+           style="width: 100%">{{selectedProduct.name}} Klammer &ouml;ffnen</a>
 
         <h3>Letzten Bestellungen:</h3>
         <button class="btn btn-large btn-danger" style="width: 100%" ng-click="undoOrder()">R&uuml;ckg&auml;ngig</button>
@@ -96,9 +110,11 @@
         <button class="btn btn-large" ng-click="setSpendingAmount(5)">+ 5</button>
         <button class="btn btn-large" ng-click="setSpendingAmount(-1)">- 1</button>
         <button class="btn btn-large" ng-click="setSpendingAmount(-2)">- 2</button>
-        <h3>Stand: 
-        <img src="@loading" alt="laden..." ng-show="loadingSpendingCount" />
-          <span ng-hide="loadingSpendingCount">{{spendingCount}}</span><span style="color: green">+{{spendingAmount}}</span>/{{selectedSpending.quantity}}</h3>
+        <h3>
+          Stand:
+          <img src="@loading" alt="laden..." ng-show="loadingSpendingCount" />
+          <span ng-hide="loadingSpendingCount">{{spendingCount}}</span><span style="color: green">+{{spendingAmount}}</span>/{{selectedSpending.quantity}}
+        </h3>
         <button class="btn btn-very-large btn-success" ng-click="orderProduct(spendingAmount)">Auf Klammer anstreichen</button>
         <br />
         <br />
@@ -107,8 +123,9 @@
 
         <h3>Letzten Bestellungen:</h3>
         <button class="btn btn-large btn-danger" style="width: 100%" ng-click="undoSpendingOrder()"
-          ng-disabled="pastOrders.length == 0">
-          R&uuml;ckg&auml;ngig</button>
+                ng-disabled="pastOrders.length == 0">
+          R&uuml;ckg&auml;ngig
+        </button>
 
         <img src="@loading" alt="am laden..." ng-show="loadingPastOrders" />
         <ul>
@@ -125,7 +142,8 @@
       <div class="modal-body">
         <h3>Ausgegeben von: {{selectedCustomer.name}}</h3>
         <h3>Produkt: {{selectedProduct.name}}</h3>
-        <h3>Menge: 
+        <h3>
+          Menge:
           <input type="number" value="{{spendingAmount}}" ng-modal="spendingAmount" class="input-small" />
           <button ng-click="spendingAmount = spendingAmount + 1" class="btn btn-large">+1</button>
           <button ng-click="spendingAmount = spendingAmount + 2" class="btn btn-large">+2</button>
@@ -137,16 +155,17 @@
       <div class="modal-footer">
         <button class="btn btn-large" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
         <button class="btn btn-primary btn-large" ng-click="spendChosenProduct()"
-          data-dismiss="modal" aria-hidden="true">
-          Klammer &ouml;ffnen</button>
+                data-dismiss="modal" aria-hidden="true">
+          Klammer &ouml;ffnen
+        </button>
       </div>
     </div>
   </div>
 
 
   <div id="customerInfoModal" class="modal hide fade" tabindex="-1"
-    role="dialog" aria-labelledby="customerInfoLabel"
-    aria-hidden="true">
+       role="dialog" aria-labelledby="customerInfoLabel"
+       aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="customerInfoLabel"></h3>
@@ -165,8 +184,8 @@
   </any>
 
   <div id="addCustomerModal" class="modal hide fade"
-    tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true" ng-controller="addCustomerController" ng-init="init()">
+       tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+       aria-hidden="true" ng-controller="addCustomerController" ng-init="init()">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="myModalLabel">Person/Konto anlegen</h3>
