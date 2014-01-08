@@ -221,7 +221,7 @@
           $scope.lastCustomers.splice(index, 1);
         }
         $scope.lastCustomers.splice(0, 0, $scope.selectedCustomer);
-        if ($scope.lastCustomers.length > 5) {
+        if ($scope.lastCustomers.length > 7) {
           $scope.lastCustomers.splice($scope.lastCustomers.length - 1, 1);
         }
 

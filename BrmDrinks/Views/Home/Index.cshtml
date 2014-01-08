@@ -26,7 +26,10 @@
     <strong>Letzte Personen:</strong>
     <br />
     <div class="element-list">
-      <button class="btn btn-large btn-name" ng-repeat="customer in lastCustomers" ng-click="selectCustomer(customer)">{{customer.name}}</button>
+      <button class="btn btn-large btn-name" 
+              ng-repeat="customer in lastCustomers" 
+              ng-class="{'btn-name-selected': customer == selectedCustomer}"
+              ng-click="selectCustomer(customer)">{{customer.name}}</button>
     </div>
   </div>
 
