@@ -482,16 +482,22 @@ namespace BrmDrinks.Controllers
       DateTime.TryParseExact(firstDay, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out first);
       DateTime last;
       DateTime.TryParseExact(lastDay, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out last);
-      var orders = from element in Orders.GetAll()
-                   where element.PurchaseDate >= first && element.PurchaseDate <= last
-                   select element;
       var consumption = new Dictionary<DateTime, Dictionary<string, int>>();
-      foreach (Order order in orders)
+
+      for (int i = 0; i < (last - first).Days; i++)
       {
-        DateTime date = new DateTime(order.PurchaseDate.Year, order.PurchaseDate.Month, order.PurchaseDate.Day);
-        if (!consumption.ContainsKey(date)) consumption.Add(date, new Dictionary<string, int>());
-        if (!consumption[date].ContainsKey(order.ProductName)) consumption[date].Add(order.ProductName, order.Quantity);
-        else consumption[date][order.ProductName] = consumption[date][order.ProductName] + order.Quantity;
+        consumption.Add(first.AddDays(i).AddHours(12), new Dictionary<string, int>());
+      }
+      foreach (var date in consumption.Keys)
+      {
+        var orders = from element in Orders.GetAll()
+                     where element.PurchaseDate >= date && element.PurchaseDate < date.AddDays(1)
+                     select element;
+        foreach (var order in orders)
+        {
+          if (!consumption[date].ContainsKey(order.ProductName)) consumption[date].Add(order.ProductName, order.Quantity);
+          else consumption[date][order.ProductName] = consumption[date][order.ProductName] + order.Quantity;
+        }
       }
 
       var transportObject = from element in consumption
