@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace BrmDrinks.Controllers
@@ -395,6 +396,29 @@ namespace BrmDrinks.Controllers
         MaxQuantity = quantity
       };
       ProductSpendings.Create(spending);
+
+      return Json("OK");
+    }
+
+    public JsonResult SendSpendMail(int customerId, int productId, int quantity)
+    {
+      Customer customer = Customers.GetById(customerId);
+      Product product = Products.GetById(productId);
+
+      string from = ConfigurationManager.AppSettings["from"];
+      string mailList = ConfigurationManager.AppSettings["mailList"];
+      if (!string.IsNullOrEmpty(from) && !string.IsNullOrEmpty(mailList))
+      {
+        var message = new MailMessage();
+        message.From = new MailAddress(from);
+        message.To.Add(new MailAddress(mailList));
+        string name = string.Format("{0} {1}", customer.FirstName, customer.LastName);
+        message.Subject = string.Format("[BRMDrinks] {0} Klammer [{1}] {2} von {3}",
+          DateTime.Now.ToString("dd.MM.yyyy HH:mm"), quantity, product.Name, name);
+
+        var smtp = new SmtpClient();
+        smtp.Send(message);
+      }
 
       return Json("OK");
     }

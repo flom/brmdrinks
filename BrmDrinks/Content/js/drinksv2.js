@@ -244,6 +244,12 @@
       productId: $scope.selectedProduct['id'],
       quantity: $scope.spendingAmount
     }).success(function (data, status, headers, config) {
+      $http.post('/Ajax/SendSpendMail', {
+        customerId: $scope.selectedCustomer['id'],
+        productId: $scope.selectedProduct['id'],
+        quantity: $scope.spendingAmount
+      });
+
       $scope.loadSpendings();
       $scope.spendingAmount = 0;
     })
