@@ -1,0 +1,75 @@
+﻿@{
+  ViewBag.Title = "PersonStatistic";
+  string loading = Url.Content("~/Content/img/loading.gif");
+  ViewBag.NgApp = true;
+}
+
+@Scripts.Render("~/Content/js/angular.js")
+@Scripts.Render("~/Content/js/personstatistics.js")
+
+@section scripts {
+  @Scripts.Render("~/Content/js/bootstrap-datepicker.js")
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+  <script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.load("visualization", "1", { packages: ["treemap"] });
+
+    //google.setOnLoadCallback(initialize);
+
+    $('#from').datepicker({
+      format: 'dd.mm.yyyy',
+    });
+    $('#to').datepicker({
+      format: 'dd.mm.yyyy',
+    });
+  </script>
+}
+
+<h2>Personen Statistik</h2>
+
+<div ng-controller="personStatisticsCtrl" ng-init="loadData()">
+
+  <div class="alphabet">
+    <button ng-repeat="letter in alphabet" class="letter-btn" ng-click="search(letter)">{{letter}}</button>
+    <button class="clear-btn" ng-click="searchStr = ''">ENTF</button>
+    <br />
+    {{searchStr}}
+  </div>
+
+  <div class="form-inline">
+    Von
+    <input type="text" value="" id="from" />
+    bis
+    <input type="text" value="" id="to" />
+    <button class="btn btn-primary btn-large" ng-click="updateConsumptionChart()">Aktualisieren</button>
+  </div>
+
+  <br />
+
+  <div class="row">
+
+    <div class="span4">
+
+      <button class="btn btn-large" ng-click="selectAll()">Alle ausw&auml;hlen</button>
+      <button class="btn btn-large" ng-click="deselectAll()">Alle abw&auml;hlen</button>
+
+      <div class="element-list">
+        <img src="@loading" alt="am laden..." ng-show="loadingCustomers" />
+        <button class="btn btn-large btn-name"
+                ng-repeat="customer in customers"
+                ng-show="customer.name.toUpperCase().indexOf(searchStr) == 0"
+                ng-click="selectCustomer(customer)"
+                ng-class="{'btn-name-selected': selectedCustomers.indexOf(customer) > -1}">
+          {{customer.name}}
+        </button>
+      </div>
+
+    </div>
+    <div class="span8">
+      <div id="consumptionChart" style="width: 900px; height: 500px;"></div>
+    </div>
+  </div>
+</div>
+
+

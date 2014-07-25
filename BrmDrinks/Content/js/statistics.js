@@ -148,6 +148,7 @@ function drawConsumptionChart(consumption) {
         }
         chartData.push(row);
     }
+    console.log(chartData);
     var data = google.visualization.arrayToDataTable(chartData);
 
     var options = {

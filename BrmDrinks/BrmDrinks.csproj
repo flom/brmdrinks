@@ -190,6 +190,7 @@
     <Content Include="Content\js\drinksv2.js" />
     <Content Include="Content\js\jquery.js" />
     <Content Include="Content\js\settlements.js" />
+    <Content Include="Content\js\personstatistics.js" />
     <Content Include="Content\js\statistics.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -315,6 +316,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_adminNavigation.cshtml" />
     <Content Include="Views\Home\Options.cshtml" />
+    <Content Include="Views\Home\PersonStatistic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

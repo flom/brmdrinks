@@ -513,6 +513,65 @@ namespace BrmDrinks.Controllers
       return Json(transportObject);
     }
 
+    public JsonResult GetPeopleConsumption(string firstDay, string lastDay, int[] peopleIds)
+    {
+      string[] formats = { "dd.MM.yyyy", "d.MM.yyyy", "dd.M.yyyy", "d.M.yyyy" };
+      if (peopleIds == null)
+        peopleIds = new int[] { };
+      DateTime first;
+      DateTime.TryParseExact(firstDay, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out first);
+      DateTime last;
+      DateTime.TryParseExact(lastDay, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out last);
+
+      var labels = new List<object>();
+      labels.Add("Datum");
+
+      var names = new HashSet<Customer>();
+      foreach (var order in Orders.GetAll())
+      {
+        if (order.PurchaseDate >= first && order.PurchaseDate <= last && peopleIds.Contains(order.Bill.Customer.ID))
+        {
+          names.Add(order.Bill.Customer);
+        }
+      }
+      foreach (var name in names)
+      {
+        labels.Add(name.GetFullName());
+      }
+
+      var consumption = new Dictionary<DateTime, Dictionary<string, int>>();
+
+      for (int i = 0; i < (last - first).Days; i++)
+      {
+        consumption.Add(first.AddDays(i).AddHours(12), new Dictionary<string, int>());
+      }
+
+      var rows = new List<List<object>>();
+      foreach (var date in consumption.Keys)
+      {
+        var row = new List<object>();
+        row.Add(date.ToString("dd.MM.yyyy"));
+
+        var orders = from element in Orders.GetAll()
+                     where element.PurchaseDate >= date && element.PurchaseDate < date.AddDays(1)
+                     select element;
+
+        foreach (var customer in names)
+        {
+          row.Add(orders.Where(e => e.Bill.Customer == customer).Sum(e => e.Quantity));
+        }
+
+        rows.Add(row);
+      }
+
+      var transport = new List<List<object>>();
+      transport.Add(labels);
+      rows.ForEach(e => transport.Add(e));
+
+      return Json(transport);
+    }
+
+
     public ActionResult DoBackup()
     {
       var settlement = new Settlement();

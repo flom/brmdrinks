@@ -96,5 +96,10 @@ namespace BrmDrinks.Controllers
       }
       return RedirectToAction("Options");
     }
+
+    public ActionResult PersonStatistic()
+    {
+      return View();
+    }
   }
 }
