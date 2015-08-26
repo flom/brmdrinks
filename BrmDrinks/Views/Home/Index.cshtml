@@ -26,10 +26,12 @@
     <strong>Letzte Personen:</strong>
     <br />
     <div class="element-list">
-      <button class="btn btn-large btn-name" 
-              ng-repeat="customer in lastCustomers" 
+      <button class="btn btn-large btn-name"
+              ng-repeat="customer in lastCustomers"
               ng-class="{'btn-name-selected': customer == selectedCustomer}"
-              ng-click="selectCustomer(customer)">{{customer.name}}</button>
+              ng-click="selectCustomer(customer)">
+        {{customer.name}}
+      </button>
     </div>
   </div>
 
@@ -99,7 +101,7 @@
 
         <a href="#spendingModal" data-toggle="modal"
            class="btn btn-large btn-info" role="button"
-           style="width: 100%">{{selectedProduct.name}} Klammer &ouml;ffnen</a>
+           style="width: 100%">{{selectedProduct.name}}Klammer &ouml;ffnen</a>
 
         <h3>Letzten Bestellungen:</h3>
         <button class="btn btn-large btn-danger" style="width: 100%" ng-click="undoOrder()">R&uuml;ckg&auml;ngig</button>
@@ -112,17 +114,16 @@
 
       <div class="span4" ng-switch-when="spending">
         <h2>Klammer von {{selectedSpending.customerName}}</h2>
-        <button class="btn btn-large" ng-click="setSpendingAmount(1)">+ 1</button>
-        <button class="btn btn-large" ng-click="setSpendingAmount(2)">+ 2</button>
-        <button class="btn btn-large" ng-click="setSpendingAmount(5)">+ 5</button>
-        <button class="btn btn-large" ng-click="setSpendingAmount(-1)">- 1</button>
-        <button class="btn btn-large" ng-click="setSpendingAmount(-2)">- 2</button>
+        <button class="btn btn-large" ng-click="orderProduct(1)">+ 1</button>
+        <button class="btn btn-large" ng-click="orderProduct(2)" ng-disabled="spendingCount + 2 > selectedSpending.quantity">+ 2</button>
+        <button class="btn btn-large" ng-click="orderProduct(3)" ng-disabled="spendingCount + 3 > selectedSpending.quantity">+ 3</button>
+        <button class="btn btn-large" ng-click="orderProduct(4)" ng-disabled="spendingCount + 4 > selectedSpending.quantity">+ 4</button>
+        <button class="btn btn-large" ng-click="orderProduct(5)" ng-disabled="spendingCount + 5 > selectedSpending.quantity">+ 5</button>
         <h3>
           Stand:
           <img src="@loading" alt="laden..." ng-show="loadingSpendingCount" />
-          <span ng-hide="loadingSpendingCount">{{spendingCount}}</span><span style="color: green">+{{spendingAmount}}</span>/{{selectedSpending.quantity}}
+          <span ng-hide="loadingSpendingCount">{{spendingCount}}</span>/{{selectedSpending.quantity}}
         </h3>
-        <button class="btn btn-very-large btn-success" ng-click="orderProduct(spendingAmount)">Auf Klammer anstreichen</button>
         <br />
         <br />
         <br />
@@ -158,6 +159,7 @@
           <button ng-click="spendingAmount = spendingAmount - 1" class="btn btn-large">-1</button>
           <button ng-click="spendingAmount = spendingAmount - 5" class="btn btn-large">-5</button>
         </h3>
+
       </div>
       <div class="modal-footer">
         <button class="btn btn-large" data-dismiss="modal" aria-hidden="true">Abbrechen</button>

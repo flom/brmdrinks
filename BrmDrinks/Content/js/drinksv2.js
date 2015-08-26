@@ -226,7 +226,7 @@
         }
 
       })
-    } else if ($scope.selectedSpending) {
+    } else if ($scope.selectedSpending && $scope.spendingCount + quantity <= $scope.selectedSpending.quantity) {
       $http.post('/Ajax/OrderSpendedProduct', {
         spendingId: $scope.selectedSpending['id'],
         quantity: quantity
